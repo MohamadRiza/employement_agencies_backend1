@@ -11,7 +11,7 @@ const app = express();
 
 // ✅ Enable CORS - Must be before any routess
 app.use(cors({
-  origin: "https://employement-agencies.vercel.app/", // Your Vite app
+  origin: "https://employement-agencies.vercel.app", // Your Vite app
   credentials: true,
 }));
 
