@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors"; // ← Import cors
 
 import messageRoutes from "./routes/messages.js";
+import adminRoutes from "./routes/admin.js";
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const app = express();
 
 // ✅ Enable CORS - Must be before any routess
 app.use(cors({
-  origin: "https://employement-agencies.vercel.app", // Your Vite app
+  origin: process.env.APP_URL || console.log("CORS error: No origin set"), // Your Vite app
   credentials: true,
 }));
 
@@ -20,6 +21,7 @@ app.use(express.json()); // Parse JSON
 
 // Routes
 app.use("/api/messages", messageRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Test route
 app.get("/", (req, res) => {
