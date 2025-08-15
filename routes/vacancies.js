@@ -3,6 +3,8 @@ import { Router } from "express";
 import protect from "../middleware/authMiddleware.js";
 import upload from "../middleware/upload.js";
 import Vacancy from "../models/Vacancy.js";
+// ✅ Import cloudinary at the top (ES Module style)
+import cloudinary from "../config/cloudinary.js";
 
 const router = Router();
 
@@ -43,7 +45,7 @@ router.post("/", protect, upload.single("image"), async (req, res) => {
 
 /**
  * GET /api/vacancies
- * @access Public (or protect if you want)
+ * @access Public
  * @desc Get all vacancies (latest first)
  */
 router.get("/", async (req, res) => {
@@ -85,10 +87,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
 /**
  * PUT /api/vacancies/:id
  * @access Admin only
- * @desc Update a vacancy (with optional new image)
+ * @desc Update a vacancy (image is optional)
  */
 router.put("/:id", protect, upload.single("image"), async (req, res) => {
   try {
@@ -99,15 +102,16 @@ router.put("/:id", protect, upload.single("image"), async (req, res) => {
       return res.status(404).json({ message: "Vacancy not found" });
     }
 
-    // If new image uploaded, delete old one from Cloudinary
+    // ✅ Only update image if a new one is uploaded
     if (req.file) {
-      const cloudinary = require("../config/cloudinary");
+      // Delete old image from Cloudinary
       await cloudinary.uploader.destroy(vacancy.imagePublicId);
+      // Update image fields
       vacancy.imageUrl = req.file.path;
       vacancy.imagePublicId = req.file.filename;
     }
 
-    // Update fields
+    // Always update other fields (if provided)
     vacancy.title = title || vacancy.title;
     vacancy.country = country || vacancy.country;
     vacancy.salary = salary || vacancy.salary;
@@ -138,8 +142,7 @@ router.delete("/:id", protect, async (req, res) => {
       return res.status(404).json({ message: "Vacancy not found" });
     }
 
-    // Delete image from Cloudinary
-    const cloudinary = require("../config/cloudinary");
+    // ✅ Delete image from Cloudinary
     await cloudinary.uploader.destroy(vacancy.imagePublicId);
 
     // Delete from DB
