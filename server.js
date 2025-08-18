@@ -6,6 +6,7 @@ import cors from "cors"; // ← Import cors
 import messageRoutes from "./routes/messages.js";
 import adminRoutes from "./routes/admin.js";
 import vacanciesRoutes from "./routes/vacancies.js";
+import aiRoutes from "./routes/ai.js";
 
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(express.json()); // Parse JSON
 app.use("/api/messages", messageRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/vacancies", vacanciesRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Test route
 app.get("/", (req, res) => {
