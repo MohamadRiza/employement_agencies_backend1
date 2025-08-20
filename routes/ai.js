@@ -84,7 +84,7 @@ Include:
 - Key responsibilities
 - Requirements
 - Why join ABC Agencies?
-Keep it under 150 words, persuasive, and suitable for a global audience.
+Keep it under 150 words, persuasive, and suitable for a global audience. and do not Use * character
     `.trim();
 
     const result = await model.generateContent(prompt);
