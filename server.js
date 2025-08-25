@@ -7,6 +7,7 @@ import messageRoutes from "./routes/messages.js";
 import adminRoutes from "./routes/admin.js";
 import vacanciesRoutes from "./routes/vacancies.js";
 import aiRoutes from "./routes/ai.js";
+import applications from "./routes/applications.js";
 
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/vacancies", vacanciesRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/applications", applications);
 
 // Test route
 app.get("/", (req, res) => {
